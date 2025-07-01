@@ -20,6 +20,7 @@ import { getServerSideURL } from './utilities/getURL'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+//TEST
 export default buildConfig({
   admin: {
     components: {
