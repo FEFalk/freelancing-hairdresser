@@ -76,10 +76,7 @@ export default buildConfig({
     vercelBlobStorage({
       enabled: true,
       collections: {
-        media: {
-          // Using the Media collection for file uploads
-          prefix: 'media', // Optional prefix for files
-        },
+        media: true, // Enable for the media collection
       },
       token: process.env.BLOB_READ_WRITE_TOKEN,
     }),
