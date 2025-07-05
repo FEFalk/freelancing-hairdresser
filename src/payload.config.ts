@@ -1,6 +1,7 @@
 // storage-adapter-import-placeholder
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+import { sv } from '@payloadcms/translations/languages/sv'
 
 import sharp from 'sharp' // sharp-import
 import path from 'path'
@@ -36,6 +37,10 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
     user: Users.slug,
+    dateFormat: 'yyyy-MM-dd HH:mm:ss',
+    meta: {
+      titleSuffix: ' - Freelancing Hairdresser',
+    },
     livePreview: {
       breakpoints: [
         {
@@ -61,6 +66,10 @@ export default buildConfig({
   },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
+  i18n: {
+    supportedLanguages: { sv },
+    fallbackLanguage: 'sv',
+  },
   db: sqliteAdapter({
     client: {
       url: process.env.DATABASE_URI || '',
