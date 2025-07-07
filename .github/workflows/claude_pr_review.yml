@@ -1,0 +1,75 @@
+name: Claude PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  claude-pr-review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: read
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Claude PR Review
+        uses: grll/claude-code-action@beta
+        with:
+          model: claude-sonnet-4-20250514
+          use_oauth: true
+          claude_access_token: ${{ secrets.CLAUDE_ACCESS_TOKEN }}
+          claude_refresh_token: ${{ secrets.CLAUDE_REFRESH_TOKEN }}
+          claude_expires_at: ${{ secrets.CLAUDE_EXPIRES_AT }}
+          timeout_minutes: "30"
+          instructions: |
+            Please review this pull request in the style of Sandi Metz, following her principles and philosophy.
+            
+            Focus on these key areas from Sandi Metz's teachings:
+            
+            # OBJECT-ORIENTED DESIGN PRINCIPLES
+            - **Single Responsibility Principle**: Does each class have a single, well-defined responsibility?
+            - **Open/Closed Principle**: Is the code open for extension but closed for modification?
+            - **Liskov Substitution**: Are inheritance relationships properly designed?
+            - **Interface Segregation**: Are interfaces focused and cohesive?
+            - **Dependency Inversion**: Are dependencies properly abstracted?
+            
+            # SANDI METZ RULES
+            - Classes should be no more than 100 lines
+            - Methods should be no more than 5 lines
+            - Pass no more than 4 parameters into a method
+            - Controllers should instantiate only one object
+            - Views should only know about one instance variable
+            
+            # CODE QUALITY FOCUS
+            - **Simplicity over Cleverness**: Is the code simple and easy to understand?
+            - **Clear Naming**: Are names intention-revealing and unambiguous?
+            - **Small Methods**: Are methods focused on doing one thing well?
+            - **Message Passing**: Are objects communicating through well-designed interfaces?
+            - **Duplication**: Look for hidden duplication and inappropriate coupling
+            
+            # TESTING MINDSET
+            - Is the code testable?
+            - Are dependencies injectable?
+            - Are side effects minimized?
+            - Can you test the interface without testing the implementation?
+            
+            # REFACTORING OPPORTUNITIES
+            - Identify code smells (long methods, large classes, feature envy, etc.)
+            - Suggest small, incremental improvements
+            - Look for opportunities to extract methods, classes, or modules
+            - Point out places where polymorphism could replace conditionals
+            
+            # REVIEW STYLE
+            - Be kind and constructive in your feedback
+            - Explain the "why" behind your suggestions
+            - Offer specific, actionable recommendations
+            - Acknowledge good design decisions
+            - Focus on principles rather than personal preferences
+            
+            Please provide your review as comments on the PR, highlighting both strengths and areas for improvement while maintaining Sandi's emphasis on practical, principled object-oriented design.
